@@ -1,6 +1,11 @@
 <?php
 
-$mysqli = new mysqli("localhost", "db_user", "YES", "blog");
+$host = $_ENV['MYSQL_HOST'];
+$username= $_ENV['MYSQL_USER'];
+$passwrd=$_ENV['MYSQL_PASSWORD'];
+$database=$_ENV['MYSQL_DATABASE'];
+
+$mysqli = new mysqli($host, $username, $passwrd, $database);
 
 if ($mysqli->connect_error) die("un problème est survenu lors de la tentative de connxion a la BDD:.$mysqli->connect_error");
 

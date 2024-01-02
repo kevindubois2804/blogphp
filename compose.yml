@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  php:
+    build: "./php_docker"
+    env_file:
+      - .env
+    volumes:
+      - ./www/:/var/www/html
+
+  apache:
+    build: "./apache_docker"
+    depends_on:
+      - php
+    ports:
+      - 8080:80
+    volumes:
+      - ./www/:/var/www/html
+
+  mariadb:
+    image: mariadb:11.2
+
+    env_file:
+      - .env
+    volumes:
+      - blogdatabase:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - 8081:80
+    environment:
+      - PMA_HOST=mariadb
+    depends_on:
+      - mariadb
+
+volumes:
+  blogdatabase:
